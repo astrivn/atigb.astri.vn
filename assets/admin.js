@@ -239,7 +239,39 @@ async function delResponse(id){
 
 // ============ CONTENT ADMIN ============
 const R2_BASE = (window.ATIGB_CONFIG.R2_PUBLIC_BASE||"").replace(/\/$/,"");
+const UPLOAD_URL = window.ATIGB_CONFIG.WORKER_UPLOAD_URL||"";
 function mediaUrl(u){ if(!u) return ""; return /^https?:\/\//.test(u) ? u : (R2_BASE ? R2_BASE+"/"+u.replace(/^\//,"") : u); }
+
+// Upload 1 ảnh qua Cloudflare Worker → trả về key (đường dẫn trong R2)
+async function uploadImage(file, folder){
+  if(!UPLOAD_URL) throw new Error("Chưa cấu hình WORKER_UPLOAD_URL");
+  const { data } = await sb.auth.getSession();
+  const token = data?.session?.access_token;
+  if(!token) throw new Error("Chưa đăng nhập");
+  const fd = new FormData();
+  fd.append("file", file);
+  fd.append("folder", folder||"su-kien");
+  const res = await fetch(UPLOAD_URL, { method:"POST", headers:{ Authorization:"Bearer "+token }, body:fd });
+  const out = await res.json().catch(()=>({error:"phản hồi không hợp lệ"}));
+  if(!res.ok || !out.ok) throw new Error(out.error||("HTTP "+res.status));
+  return out; // { ok, key, url }
+}
+// Gắn 1 ô upload vào form: nút chọn file -> upload -> điền key vào input target
+function wireUploader(fileInputId, targetInputId, folder, statusId){
+  const fi=$("#"+fileInputId); if(!fi) return;
+  fi.addEventListener("change", async ()=>{
+    const f=fi.files[0]; if(!f) return;
+    const st=$("#"+statusId);
+    if(!UPLOAD_URL){ if(st){st.textContent="⚠ Chưa bật upload (thiếu WORKER_UPLOAD_URL) — hãy dán URL ảnh thủ công."; st.style.color="var(--danger)";} return; }
+    if(st){ st.textContent="⏳ Đang tải ảnh lên R2..."; st.style.color="var(--ink-2)"; }
+    try{
+      const r=await uploadImage(f, folder);
+      $("#"+targetInputId).value = r.key;
+      if(st){ st.innerHTML=`✅ Đã tải: <code>${esc(r.key)}</code>`; st.style.color="var(--ok)"; }
+      toast("Tải ảnh thành công");
+    }catch(e){ if(st){ st.textContent="✕ "+e.message; st.style.color="var(--danger)"; } toast("Lỗi upload: "+e.message,true); }
+  });
+}
 
 async function renderContentAdmin(){
   const [{data:news},{data:pubs},{data:events}] = await Promise.all([
@@ -286,14 +318,20 @@ function eventForm(e){
         <div class="field"><label>Ngày (YYYY-MM-DD)</label><input type="text" id="eDate" value="${esc(e.event_date||'')}"></div>
         <div class="field"><label>Địa điểm</label><input type="text" id="eLoc" value="${esc(e.location||'')}"></div>
       </div>
-      <div class="field"><label>URL ảnh (từ R2 Cloudflare)</label><input type="text" id="eImg" value="${esc(e.image_url||'')}" placeholder="https://media.astri.vn/atigb/su-kien-1.jpg  hoặc  su-kien-1.jpg"></div>
+      <div class="field">
+        <label>Tải ảnh lên (R2)</label>
+        <input type="file" id="eFile" accept="image/*">
+        <div id="eUpStatus" style="font-size:.8rem;margin-top:6px;color:var(--muted)"></div>
+      </div>
+      <div class="field"><label>Hoặc dán URL / tên file ảnh</label><input type="text" id="eImg" value="${esc(e.image_url||'')}" placeholder="su-kien/khao-sat.jpg  hoặc  https://...r2.dev/su-kien/khao-sat.jpg"></div>
       <div class="field"><label>Mô tả (tuỳ chọn)</label><textarea id="eDesc" rows="2">${esc(e.description||'')}</textarea></div>
       <div style="background:var(--cream-2);padding:12px;border-radius:10px;font-size:.82rem;color:var(--ink-2);margin-bottom:14px">
-        💡 Nếu đã đặt <code>R2_PUBLIC_BASE</code> trong config, bạn chỉ cần nhập <b>tên file</b> (vd <code>su-kien-1.jpg</code>). Nếu chưa, nhập <b>URL đầy đủ</b> của ảnh.
+        💡 Chọn ảnh để <b>tự tải lên R2</b> (ô URL sẽ tự điền). Hoặc nhập <b>tên file</b>/URL thủ công nếu đã tải qua dashboard.
       </div>
       <div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn btn-ghost" id="mCancel">Hủy</button><button class="btn btn-primary" id="mSave">Lưu</button></div>
     </div>`);
   $("#mClose").onclick=closeModal;$("#mCancel").onclick=closeModal;
+  wireUploader("eFile","eImg","su-kien","eUpStatus");
   $("#mSave").onclick=async()=>{
     const row={ title:$("#eTitle").value, event_date:$("#eDate").value||null, location:$("#eLoc").value||null,
       image_url:$("#eImg").value||null, description:$("#eDesc").value||null };
@@ -313,10 +351,12 @@ function newsForm(n){
         <div class="field"><label>Ngày (YYYY-MM-DD)</label><input type="text" id="nDate" value="${esc(n.published_at||'')}"></div>
       </div>
       <div class="field"><label>Link nguồn</label><input type="text" id="nUrl" value="${esc(n.source_url||'')}"></div>
-      <div class="field"><label>Ảnh URL (R2)</label><input type="text" id="nImg" value="${esc(n.image_url||'')}"></div>
+      <div class="field"><label>Tải ảnh minh hoạ (R2)</label><input type="file" id="nFile" accept="image/*"><div id="nUpStatus" style="font-size:.8rem;margin-top:6px;color:var(--muted)"></div></div>
+      <div class="field"><label>Hoặc dán URL / tên file ảnh</label><input type="text" id="nImg" value="${esc(n.image_url||'')}" placeholder="tin-tuc/anh.jpg"></div>
       <div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn btn-ghost" id="mCancel">Hủy</button><button class="btn btn-primary" id="mSave">Lưu</button></div>
     </div>`);
   $("#mClose").onclick=closeModal;$("#mCancel").onclick=closeModal;
+  wireUploader("nFile","nImg","tin-tuc","nUpStatus");
   $("#mSave").onclick=async()=>{
     const row={ title:$("#nTitle").value, summary:$("#nSum").value, source:$("#nSrc").value||null,
       published_at:$("#nDate").value||null, source_url:$("#nUrl").value||null, image_url:$("#nImg").value||null };
