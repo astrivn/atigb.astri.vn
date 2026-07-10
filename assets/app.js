@@ -3,6 +3,8 @@ import { sb, toast, DIM_ORDER, fmtDate } from "./db.js";
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;" }[c]));
+const R2_BASE = (window.ATIGB_CONFIG.R2_PUBLIC_BASE||"").replace(/\/$/,"");
+const mediaUrl = (u) => !u ? "" : (/^https?:\/\//.test(u) ? u : (R2_BASE ? R2_BASE+"/"+u.replace(/^\//,"") : u));
 
 let DIMS = {}, QUESTIONS = [], OPENQ = [], DISTRICTS =
   ["TP Sơn La","Mộc Châu","Mai Sơn","Yên Châu","Sông Mã","Thuận Châu","Phù Yên","Bắc Yên","Mường La","Khác"];
@@ -107,7 +109,7 @@ function renderNews(news) {
   const icons = ["📰","🌱","📜","🏛️","📈","🚜"];
   g.innerHTML = news.map((n,i) => `
     <article class="news-card ${i===0?'feature':''}">
-      <div class="thumb">${n.image_url ? `<img src="${esc(n.image_url)}" style="width:100%;height:100%;object-fit:cover" alt="">` : (icons[i%icons.length])}</div>
+      <div class="thumb">${n.image_url ? `<img src="${esc(mediaUrl(n.image_url))}" style="width:100%;height:100%;object-fit:cover" alt="">` : (icons[i%icons.length])}</div>
       <div class="news-body">
         <div class="meta"><span class="tag">${esc(n.source||'Tin tức')}</span>${n.published_at?`<span>· ${fmtDate(n.published_at)}</span>`:''}</div>
         <h3>${esc(n.title)}</h3>
@@ -272,7 +274,7 @@ function renderEvents(events) {
       .map(c=>`<div class="ph">🖼️<span class="cap">${c}</span></div>`).join("");
     return;
   }
-  g.innerHTML = events.map(e=>`<div class="ph">${e.image_url?`<img src="${esc(e.image_url)}" style="width:100%;height:100%;object-fit:cover" alt="">`:'🖼️'}<span class="cap">${esc(e.title)}${e.event_date?' · '+fmtDate(e.event_date):''}</span></div>`).join("");
+  g.innerHTML = events.map(e=>`<div class="ph">${e.image_url?`<img src="${esc(mediaUrl(e.image_url))}" style="width:100%;height:100%;object-fit:cover" alt="">`:'🖼️'}<span class="cap">${esc(e.title)}${e.event_date?' · '+fmtDate(e.event_date):''}</span></div>`).join("");
 }
 
 loadAll().catch(e => { console.error(e); toast("Không tải được dữ liệu. Kiểm tra kết nối.", true); });
