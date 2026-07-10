@@ -1,0 +1,18 @@
+# Wrangler config cho ATiGB Upload Worker
+# Deploy: npx wrangler deploy   (cần đăng nhập Cloudflare: npx wrangler login, hoặc CLOUDFLARE_API_TOKEN)
+name = "atigb-upload"
+main = "worker.js"
+compatibility_date = "2025-01-01"
+account_id = "41a56810d77791d0ec46c515f5684bff"
+
+# R2 bucket binding
+[[r2_buckets]]
+binding = "BUCKET"
+bucket_name = "atigb-media"
+
+# Biến môi trường (không phải secret — an toàn)
+[vars]
+SUPABASE_URL = "https://hmzkerdiizxgstlyixcc.supabase.co"
+SUPABASE_ANON = "sb_publishable_jlN2WX9w6dmKDVxyI8gAQw_XquZSHxQ"
+R2_PUBLIC_BASE = "https://pub-d5f8e8a14fc94615bbd1bbcd3b77bf3a.r2.dev"
+ALLOWED_ORIGIN = "https://atigb.astri.vn"
