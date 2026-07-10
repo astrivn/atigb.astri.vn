@@ -147,7 +147,7 @@
 
     <!-- CONTENT -->
     <section class="view" id="view-content">
-      <div class="page-head"><div><h1>Nội dung trang</h1><p style="color:var(--ink-2)">Quản lý tin tức và bài báo hiển thị công khai.</p></div></div>
+      <div class="page-head"><div><h1>Nội dung trang</h1><p style="color:var(--ink-2)">Quản lý tin tức, bài báo và ảnh sự kiện hiển thị công khai.</p></div></div>
       <div class="panel-grid">
         <div class="panel">
           <div style="display:flex;justify-content:space-between;align-items:center"><h3>Tin tức</h3><button class="btn btn-ghost btn-sm" id="addNews">+ Thêm</button></div>
@@ -157,6 +157,13 @@
           <div style="display:flex;justify-content:space-between;align-items:center"><h3>Bài báo</h3><button class="btn btn-ghost btn-sm" id="addPub">+ Thêm</button></div>
           <div id="pubAdmin" class="mt-2"></div>
         </div>
+      </div>
+      <div class="panel">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div><h3>Ảnh &amp; Sự kiện</h3><p class="ph-sub" style="margin:0">Ảnh khảo sát thực địa, hội thảo… (dán URL ảnh từ R2 Cloudflare)</p></div>
+          <button class="btn btn-ghost btn-sm" id="addEvent">+ Thêm sự kiện</button>
+        </div>
+        <div id="eventAdmin" class="mt-2" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px"></div>
       </div>
     </section>
 
