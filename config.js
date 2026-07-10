@@ -8,5 +8,7 @@ window.ATIGB_CONFIG = {
   SUPABASE_ANON_KEY: "sb_publishable_jlN2WX9w6dmKDVxyI8gAQw_XquZSHxQ",
   SCHEMA: "atigb",
   // R2 Cloudflare — bucket atigb-media (Public Development URL)
-  R2_PUBLIC_BASE: "https://pub-d5f8e8a14fc94615bbd1bbcd3b77bf3a.r2.dev"
+  R2_PUBLIC_BASE: "https://pub-d5f8e8a14fc94615bbd1bbcd3b77bf3a.r2.dev",
+  // Cloudflare Worker upload endpoint (điền sau khi deploy worker atigb-upload)
+  WORKER_UPLOAD_URL: ""
 };
