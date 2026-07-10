@@ -9,6 +9,6 @@ window.ATIGB_CONFIG = {
   SCHEMA: "atigb",
   // R2 Cloudflare — bucket atigb-media (Public Development URL)
   R2_PUBLIC_BASE: "https://pub-d5f8e8a14fc94615bbd1bbcd3b77bf3a.r2.dev",
-  // Cloudflare Worker upload endpoint (điền sau khi deploy worker atigb-upload)
-  WORKER_UPLOAD_URL: ""
+  // Cloudflare Worker upload endpoint (worker atigb-upload)
+  WORKER_UPLOAD_URL: "https://atigb-upload.astrivn.workers.dev"
 };
