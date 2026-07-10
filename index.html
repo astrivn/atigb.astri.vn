@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Khảo sát QLNN về Nông nghiệp Công nghệ cao — Sơn La | ATiGB</title>
+<meta name="description" content="Khảo sát quản lý nhà nước về ứng dụng công nghệ cao vào nông nghiệp tại tỉnh Sơn La — Khung đánh giá ATiGB 5 chiều. Luận án tiến sĩ, Trường Đại học Thủy lợi.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23137A3A'/><text x='50' y='68' font-size='58' text-anchor='middle' fill='%23A6E05A' font-family='Georgia'>A</text></svg>">
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="container nav-inner">
+    <a class="brand" href="#top">
+      <span class="mark">A</span>
+      <span>ATiGB · Sơn La</span>
+    </a>
+    <button class="nav-toggle" id="navToggle">☰</button>
+    <div class="nav-links" id="navLinks">
+      <a href="#gioithieu">Giới thiệu</a>
+      <a href="#tintuc">Tin tức</a>
+      <a href="#khung">Khung ATiGB</a>
+      <a href="#khaosat">Khảo sát</a>
+      <a href="#ketqua">Kết quả</a>
+      <a href="admin.html" class="btn btn-ghost btn-sm">Quản trị</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="container hero-inner">
+    <div>
+      <span class="eyebrow" id="heroBadge">Luận án Tiến sĩ · Trường Đại học Thủy lợi</span>
+      <h1 id="heroTitle">Quản lý Nhà nước về Nông nghiệp Công nghệ cao</h1>
+      <p class="lead" id="heroSub">Nghiên cứu điển hình tại tỉnh Sơn La — Khung đánh giá ATiGB 5 chiều, giai đoạn 2019–2026.</p>
+      <div class="hero-cta">
+        <a href="#khaosat" class="btn btn-primary">Tham gia khảo sát →</a>
+        <a href="#gioithieu" class="btn btn-ghost">Tìm hiểu nghiên cứu</a>
+      </div>
+      <div class="hero-badges">
+        <div class="hero-badge"><b>40</b><span>Câu hỏi Likert</span></div>
+        <div class="hero-badge"><b>5</b><span>Chiều đánh giá</span></div>
+        <div class="hero-badge"><b>~15'</b><span>Thời gian trả lời</span></div>
+      </div>
+    </div>
+    <div class="hero-art">
+      <div class="hero-card">
+        <h4>Khung đánh giá ATiGB</h4>
+        <div id="heroDims" class="dims" style="flex-direction:column;gap:12px"></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- DẢI SỐ LIỆU THẬT -->
+<section class="statband">
+  <div class="container">
+    <div class="stat-head">
+      <div><span class="eyebrow" style="color:var(--lime-bright)">Sơn La qua những con số</span>
+        <h3>Bức tranh nông nghiệp công nghệ cao</h3></div>
+      <span class="src">Nguồn: Cổng TTĐT Sơn La, Bộ KH&amp;CN, VOV, Dân Việt · 2025–2026</span>
+    </div>
+    <div class="stat-grid" id="statGrid"></div>
+  </div>
+</section>
+
+<!-- GIỚI THIỆU -->
+<section class="section" id="gioithieu">
+  <div class="container">
+    <div class="center">
+      <span class="eyebrow">Về nghiên cứu</span>
+      <h2 class="section-title" id="introHeading">Giới thiệu &amp; Ý nghĩa</h2>
+    </div>
+    <div class="grid g-2 mt-3" style="align-items:start">
+      <div class="card">
+        <div class="icon">🎓</div>
+        <h3>Bối cảnh luận án</h3>
+        <p id="introBody" style="color:var(--ink-2)"></p>
+      </div>
+      <div class="card">
+        <div class="icon">🌱</div>
+        <h3>Ý nghĩa &amp; đóng góp</h3>
+        <p id="introMeaning" style="color:var(--ink-2)"></p>
+      </div>
+    </div>
+    <div class="grid g-4 mt-2" id="whyCards"></div>
+  </div>
+</section>
+
+<!-- TIN TỨC -->
+<section class="section" id="tintuc" style="background:linear-gradient(180deg,var(--cream),var(--cream-2))">
+  <div class="container">
+    <div class="center">
+      <span class="eyebrow">Bối cảnh thực tiễn</span>
+      <h2 class="section-title">Tin tức &amp; Vì sao cần nghiên cứu</h2>
+      <p class="section-sub">Những chuyển động chính sách và thực tiễn tại Sơn La cho thấy tính cấp thiết của việc hoàn thiện quản lý nhà nước về nông nghiệp công nghệ cao.</p>
+    </div>
+    <div class="news-grid mt-3" id="newsGrid"></div>
+  </div>
+</section>
+
+<!-- KHUNG ATiGB -->
+<section class="section" id="khung">
+  <div class="container">
+    <div class="center">
+      <span class="eyebrow">Phương pháp</span>
+      <h2 class="section-title">Khung đánh giá ATiGB 5 chiều</h2>
+      <p class="section-sub">Mỗi chiều đo một khía cạnh của quản lý nhà nước — từ bối cảnh chính sách đến tác động thực tế — với 40 câu hỏi được kiểm định độ tin cậy (Cronbach's α = 0,89).</p>
+    </div>
+    <div class="atigb-grid mt-3" id="atigbGrid"></div>
+  </div>
+</section>
+
+<!-- KHẢO SÁT -->
+<section class="section" id="khaosat" style="background:linear-gradient(180deg,var(--cream),var(--cream-2))">
+  <div class="container">
+    <div class="center">
+      <span class="eyebrow">Bảng hỏi ATiGB</span>
+      <h2 class="section-title">Tham gia khảo sát</h2>
+      <p class="section-sub">Vui lòng đánh giá theo hai mốc thời gian: <b style="color:var(--terra)">Trước 2019</b> và <b style="color:var(--blue)">Hiện nay</b>, theo thang điểm 1 (Rất kém) → 5 (Rất tốt). Nghiên cứu không có câu trả lời đúng/sai.</p>
+    </div>
+
+    <div class="survey-wrap mt-3">
+      <div class="progress-bar">
+        <div class="progress-track"><div class="progress-fill" id="progFill"></div></div>
+        <div class="progress-meta"><span id="progLabel">Thông tin chung</span><span id="progCount">0%</span></div>
+      </div>
+
+      <form id="surveyForm">
+        <!-- STEP 0: thông tin -->
+        <div class="step active" data-step="0">
+          <div class="step-head">
+            <span class="badge" style="background:var(--forest)">Bước 1 · Thông tin chung</span>
+            <h3 style="font-size:1.8rem">Đôi nét về Anh/Chị</h3>
+            <p style="color:var(--ink-2)">Thông tin dùng để phân tích theo nhóm, không thu thập danh tính cá nhân.</p>
+          </div>
+          <div class="card">
+            <div class="field">
+              <label>Nhóm đối tượng <span style="color:var(--danger)">*</span></label>
+              <select id="respType" required>
+                <option value="">— Chọn nhóm —</option>
+                <option value="QLNN">Cán bộ quản lý nhà nước</option>
+                <option value="DN-HTX">Doanh nghiệp / Hợp tác xã</option>
+                <option value="KHCN">Chuyên gia khoa học công nghệ</option>
+                <option value="NhaKhoaHoc">Nhà khoa học / Giảng viên</option>
+                <option value="NongDan">Nông dân sản xuất</option>
+              </select>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label>Địa bàn công tác</label>
+                <select id="district">
+                  <option value="">— Chọn địa bàn —</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>Số năm kinh nghiệm</label>
+                <input type="number" id="yearsExp" min="0" max="50" placeholder="VD: 10">
+              </div>
+            </div>
+            <div class="field">
+              <label>Đơn vị / Tổ chức (không bắt buộc)</label>
+              <input type="text" id="org" placeholder="VD: Sở Nông nghiệp &amp; Môi trường Sơn La">
+            </div>
+          </div>
+          <div class="survey-nav">
+            <span></span>
+            <button type="button" class="btn btn-primary" data-next>Tiếp tục →</button>
+          </div>
+        </div>
+        <!-- steps for dimensions injected here -->
+        <div id="dimSteps"></div>
+        <!-- open questions step injected -->
+        <div id="openStep"></div>
+        <!-- thankyou -->
+        <div class="step" data-step="done">
+          <div class="thankyou">
+            <div class="check">✓</div>
+            <h2 style="font-size:2.2rem">Cảm ơn Anh/Chị!</h2>
+            <p style="color:var(--ink-2);max-width:520px;margin:12px auto 0">Phản hồi của Anh/Chị đã được ghi nhận và sẽ góp phần quan trọng vào kết quả nghiên cứu luận án. Trân trọng cảm ơn sự tham gia quý báu!</p>
+            <a href="#top" class="btn btn-gold mt-3">Về đầu trang</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- KẾT QUẢ -->
+<section class="section" id="ketqua" style="background:linear-gradient(180deg,var(--cream-2),var(--cream))">
+  <div class="container">
+    <div class="center">
+      <span class="eyebrow">Công bố &amp; kết quả</span>
+      <h2 class="section-title">Kết quả nghiên cứu &amp; Bài báo khoa học</h2>
+      <p class="section-sub">Hệ thống 7 bài báo khoa học trong quá trình thực hiện luận án và các kết quả nổi bật của khung ATiGB.</p>
+    </div>
+
+    <div class="grid g-4 mt-3" id="resultKpis"></div>
+
+    <h3 style="font-size:1.6rem;margin:48px 0 20px">Danh mục bài báo khoa học</h3>
+    <div class="grid" style="gap:16px" id="pubList"></div>
+
+    <h3 style="font-size:1.6rem;margin:48px 0 20px">Hình ảnh &amp; sự kiện</h3>
+    <div class="gallery" id="eventGallery"></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="brand" style="color:#fff;margin-bottom:14px">
+          <span class="mark">A</span><span>ATiGB · Sơn La</span>
+        </div>
+        <p style="color:#B9C7C0;max-width:380px">Khảo sát quản lý nhà nước về ứng dụng công nghệ cao vào nông nghiệp tại tỉnh Sơn La — Khung đánh giá ATiGB 5 chiều.</p>
+      </div>
+      <div>
+        <h4>Nghiên cứu sinh</h4>
+        <p>Nguyễn Việt Hùng</p>
+        <p>Ngành Quản lý kinh tế</p>
+        <p>Trường Đại học Thủy lợi</p>
+        <p><a href="mailto:23931011010@e.tlu.edu.vn">23931011010@e.tlu.edu.vn</a></p>
+      </div>
+      <div>
+        <h4>Liên kết</h4>
+        <p><a href="#gioithieu">Giới thiệu</a></p>
+        <p><a href="#khaosat">Tham gia khảo sát</a></p>
+        <p><a href="#ketqua">Kết quả &amp; bài báo</a></p>
+        <p><a href="admin.html">Trang quản trị</a></p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 · Luận án Tiến sĩ — Trường Đại học Thủy lợi</span>
+      <span>Người hướng dẫn: PGS.TS. Bùi Thị Ngọc</span>
+    </div>
+  </div>
+</footer>
+
+<script src="config.js"></script>
+<script type="module" src="assets/app.js"></script>
+</body>
+</html>
