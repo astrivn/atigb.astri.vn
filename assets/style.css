@@ -196,8 +196,8 @@ img{max-width:100%;display:block}
   border:1.5px solid var(--line-2);background:var(--cream);font-weight:600;font-size:.95rem;
   color:var(--ink-2);transition:.18s}
 .likert label:hover .dot{border-color:var(--gold)}
-.likert.before input:checked+.dot{background:var(--terra);border-color:var(--terra);color:#fff}
-.likert.now input:checked+.dot{background:var(--blue);border-color:var(--blue);color:#fff}
+.likert.a input:checked+.dot{background:var(--terra);border-color:var(--terra);color:#fff}
+.likert.b input:checked+.dot{background:var(--blue);border-color:var(--blue);color:#fff}
 .scale-hint{display:flex;justify-content:space-between;font-size:.72rem;color:var(--muted);margin-top:6px}
 .survey-nav{display:flex;justify-content:space-between;gap:14px;margin-top:28px}
 .open-q{margin-bottom:20px}
