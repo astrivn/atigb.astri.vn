@@ -238,11 +238,28 @@ async function delResponse(id){
 }
 
 // ============ CONTENT ADMIN ============
+const R2_BASE = (window.ATIGB_CONFIG.R2_PUBLIC_BASE||"").replace(/\/$/,"");
+function mediaUrl(u){ if(!u) return ""; return /^https?:\/\//.test(u) ? u : (R2_BASE ? R2_BASE+"/"+u.replace(/^\//,"") : u); }
+
 async function renderContentAdmin(){
-  const [{data:news},{data:pubs}] = await Promise.all([
+  const [{data:news},{data:pubs},{data:events}] = await Promise.all([
     sb.from("news").select("*").order("sort_order"),
     sb.from("publications").select("*").order("sort_order"),
+    sb.from("events").select("*").order("sort_order"),
   ]);
+  $("#eventAdmin").innerHTML = (events||[]).map(e=>`
+    <div style="border:1px solid var(--line);border-radius:12px;overflow:hidden">
+      <div style="aspect-ratio:4/3;background:linear-gradient(135deg,var(--forest-3),var(--forest));display:grid;place-items:center;color:var(--gold-2);font-size:1.6rem">
+        ${e.image_url?`<img src="${esc(mediaUrl(e.image_url))}" style="width:100%;height:100%;object-fit:cover" alt="" onerror="this.style.display='none';this.parentNode.textContent='⚠️ ảnh lỗi'">`:'🖼️'}
+      </div>
+      <div style="padding:10px">
+        <b style="font-size:.86rem;display:block;line-height:1.3">${esc(e.title)}</b>
+        <span style="color:var(--muted);font-size:.75rem">${e.event_date?fmtDate(e.event_date):''}${e.location?' · '+esc(e.location):''}</span>
+        <div style="margin-top:8px;white-space:nowrap"><button class="icon-btn" data-ev-edit="${e.id}">✎</button> <button class="icon-btn" data-ev-del="${e.id}">🗑</button></div>
+      </div>
+    </div>`).join("") || `<p style="color:var(--muted)">Chưa có ảnh sự kiện. Bấm "+ Thêm sự kiện".</p>`;
+  $$("[data-ev-edit]").forEach(b=>b.onclick=()=>eventForm((events||[]).find(x=>x.id==b.dataset.evEdit)));
+  $$("[data-ev-del]").forEach(b=>b.onclick=()=>delRow("events",b.dataset.evDel));
   $("#newsAdmin").innerHTML = (news||[]).map(n=>`
     <div style="padding:12px;border:1px solid var(--line);border-radius:12px;margin-bottom:8px;display:flex;justify-content:space-between;gap:10px">
       <div><b style="font-size:.92rem">${esc(n.title)}</b><br><span style="color:var(--muted);font-size:.8rem">${esc(n.source||'')} ${n.published_at?'· '+fmtDate(n.published_at):''}</span></div>
@@ -260,6 +277,32 @@ async function renderContentAdmin(){
 }
 $("#addNews").onclick=()=>newsForm(null);
 $("#addPub").onclick=()=>pubForm(null);
+$("#addEvent").onclick=()=>eventForm(null);
+function eventForm(e){
+  e=e||{}; openModal(`<div class="modal-head"><h3>${e.id?'Sửa':'Thêm'} ảnh sự kiện</h3><button class="icon-btn" id="mClose">✕</button></div>
+    <div class="modal-body">
+      <div class="field"><label>Tiêu đề / mô tả ảnh</label><input type="text" id="eTitle" value="${esc(e.title||'')}" placeholder="VD: Khảo sát thực địa tại Mộc Châu"></div>
+      <div class="field-row">
+        <div class="field"><label>Ngày (YYYY-MM-DD)</label><input type="text" id="eDate" value="${esc(e.event_date||'')}"></div>
+        <div class="field"><label>Địa điểm</label><input type="text" id="eLoc" value="${esc(e.location||'')}"></div>
+      </div>
+      <div class="field"><label>URL ảnh (từ R2 Cloudflare)</label><input type="text" id="eImg" value="${esc(e.image_url||'')}" placeholder="https://media.astri.vn/atigb/su-kien-1.jpg  hoặc  su-kien-1.jpg"></div>
+      <div class="field"><label>Mô tả (tuỳ chọn)</label><textarea id="eDesc" rows="2">${esc(e.description||'')}</textarea></div>
+      <div style="background:var(--cream-2);padding:12px;border-radius:10px;font-size:.82rem;color:var(--ink-2);margin-bottom:14px">
+        💡 Nếu đã đặt <code>R2_PUBLIC_BASE</code> trong config, bạn chỉ cần nhập <b>tên file</b> (vd <code>su-kien-1.jpg</code>). Nếu chưa, nhập <b>URL đầy đủ</b> của ảnh.
+      </div>
+      <div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn btn-ghost" id="mCancel">Hủy</button><button class="btn btn-primary" id="mSave">Lưu</button></div>
+    </div>`);
+  $("#mClose").onclick=closeModal;$("#mCancel").onclick=closeModal;
+  $("#mSave").onclick=async()=>{
+    const row={ title:$("#eTitle").value, event_date:$("#eDate").value||null, location:$("#eLoc").value||null,
+      image_url:$("#eImg").value||null, description:$("#eDesc").value||null };
+    if(!row.title){ toast("Nhập tiêu đề ảnh",true); return; }
+    const q = e.id ? sb.from("events").update(row).eq("id",e.id) : sb.from("events").insert(row);
+    const {error}=await q; if(error){toast("Lỗi: "+error.message,true);return;}
+    closeModal(); renderContentAdmin(); toast("Đã lưu sự kiện");
+  };
+}
 function newsForm(n){
   n=n||{}; openModal(`<div class="modal-head"><h3>${n.id?'Sửa':'Thêm'} tin tức</h3><button class="icon-btn" id="mClose">✕</button></div>
     <div class="modal-body">
