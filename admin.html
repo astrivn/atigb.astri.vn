@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quản trị · Khảo sát ATiGB Sơn La</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23137A3A'/><text x='50' y='68' font-size='58' text-anchor='middle' fill='%23A6E05A' font-family='Georgia'>A</text></svg>">
+<style>
+  body{background:var(--cream-2)}
+  /* Login */
+  .login-wrap{min-height:100vh;display:grid;place-items:center;padding:24px;
+    background:radial-gradient(1000px 500px at 70% -10%,rgba(141,203,63,.16),transparent),linear-gradient(180deg,var(--cream),var(--cream-2))}
+  .login-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);
+    padding:44px;max-width:420px;width:100%;box-shadow:var(--shadow-lg)}
+  .login-card .mark{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;margin:0 auto 20px;
+    background:linear-gradient(135deg,var(--forest-2),var(--forest));color:var(--gold-2);font-family:var(--serif);font-size:1.7rem;font-weight:700}
+  /* Admin shell */
+  .admin-shell{display:grid;grid-template-columns:250px 1fr;min-height:100vh}
+  .sidebar{background:var(--forest);color:#D9E4DE;padding:26px 18px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column}
+  .sidebar .brand{color:#fff;margin-bottom:32px}
+  .sidebar .brand .mark{background:rgba(255,255,255,.1)}
+  .side-nav{display:flex;flex-direction:column;gap:4px;flex:1}
+  .side-nav button{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;border:none;
+    background:transparent;color:#B9C7C0;font-family:var(--sans);font-size:.94rem;font-weight:500;cursor:pointer;text-align:left;transition:.2s;width:100%}
+  .side-nav button:hover{background:rgba(255,255,255,.07);color:#fff}
+  .side-nav button.active{background:var(--gold);color:var(--forest);font-weight:700}
+  .side-foot{border-top:1px solid rgba(255,255,255,.12);padding-top:16px;font-size:.82rem;color:#8FA39A}
+  .main{padding:32px 36px;overflow-x:hidden}
+  .page-head{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px;margin-bottom:28px}
+  .page-head h1{font-size:2rem}
+  .view{display:none}.view.active{display:block;animation:fade .35s ease}
+  .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  @media(max-width:1100px){.kpi-grid{grid-template-columns:repeat(2,1fr)}.admin-shell{grid-template-columns:1fr}.sidebar{position:static;height:auto;flex-direction:row;align-items:center;flex-wrap:wrap}.side-nav{flex-direction:row;flex-wrap:wrap}.side-foot{display:none}}
+  .kpi{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow-sm)}
+  .kpi .n{font-family:var(--serif);font-size:2.6rem;color:var(--forest);line-height:1}
+  .kpi .t{font-weight:600;margin-top:4px}.kpi .s{color:var(--muted);font-size:.82rem}
+  .kpi .delta{font-size:.8rem;font-weight:700;padding:3px 9px;border-radius:100px;background:var(--gold-soft);color:var(--forest);display:inline-block;margin-top:8px}
+  .panel{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow-sm);margin-top:20px}
+  .panel h3{font-size:1.3rem;margin-bottom:4px}
+  .panel .ph-sub{color:var(--muted);font-size:.88rem;margin-bottom:16px}
+  .panel-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  @media(max-width:900px){.panel-grid{grid-template-columns:1fr}}
+  .chart-legend{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+  .chart-legend .lg{display:inline-flex;align-items:center;gap:7px;font-size:.85rem;color:var(--ink-2);font-weight:500}
+  .chart-legend .lg i{width:13px;height:13px;border-radius:4px;display:inline-block}
+  table{width:100%;border-collapse:collapse;font-size:.88rem}
+  th,td{padding:11px 12px;text-align:left;border-bottom:1px solid var(--line)}
+  th{font-size:.74rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:700;position:sticky;top:0;background:var(--paper)}
+  tbody tr:hover{background:var(--cream)}
+  .badge-status{font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:100px}
+  .st-raw{background:#FBF0D6;color:#8A6D00}.st-cleaned{background:#DCF0E4;color:#1E5C40}
+  .st-flagged{background:#FBE0D6;color:#8A3A1E}.st-excluded{background:#EEE;color:#888}
+  .toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+  .toolbar select,.toolbar input{padding:9px 12px;font-size:.88rem;width:auto}
+  .table-scroll{overflow:auto;max-height:64vh;border:1px solid var(--line);border-radius:var(--radius-sm)}
+  .icon-btn{background:none;border:1px solid var(--line-2);border-radius:8px;padding:5px 9px;cursor:pointer;font-size:.85rem;transition:.2s}
+  .icon-btn:hover{border-color:var(--gold);background:var(--cream)}
+  .modal-bg{position:fixed;inset:0;background:rgba(20,33,30,.5);backdrop-filter:blur(3px);z-index:100;display:none;place-items:center;padding:20px}
+  .modal-bg.show{display:grid}
+  .modal{background:var(--paper);border-radius:var(--radius-lg);max-width:760px;width:100%;max-height:88vh;overflow:auto;box-shadow:var(--shadow-lg)}
+  .modal-head{padding:22px 26px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--paper);z-index:2}
+  .modal-body{padding:26px}
+  .heat td{text-align:center;font-weight:600;color:#fff;border:2px solid var(--paper);border-radius:6px}
+  .heat th{background:transparent}
+  .heat td.lbl{background:var(--cream-2);color:var(--ink);text-align:left;font-weight:700}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-wrap" id="loginView">
+  <div class="login-card">
+    <div class="mark">A</div>
+    <h2 style="text-align:center;font-size:1.7rem">Trang quản trị</h2>
+    <p style="text-align:center;color:var(--ink-2);margin-bottom:24px;font-size:.92rem">Khảo sát ATiGB · Sơn La</p>
+    <form id="loginForm">
+      <div class="field"><label>Email</label><input type="email" id="email" required autocomplete="username" placeholder="admin@atigb-sonla.vn"></div>
+      <div class="field"><label>Mật khẩu</label><input type="password" id="password" required autocomplete="current-password" placeholder="••••••••"></div>
+      <button class="btn btn-primary" style="width:100%" id="loginBtn" type="submit">Đăng nhập</button>
+      <p id="loginErr" style="color:var(--danger);font-size:.85rem;text-align:center;margin-top:12px"></p>
+    </form>
+    <p style="text-align:center;margin-top:20px"><a href="index.html" style="font-size:.85rem">← Về trang khảo sát</a></p>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div class="admin-shell hidden" id="adminView">
+  <aside class="sidebar">
+    <div class="brand"><span class="mark">A</span><span>ATiGB Admin</span></div>
+    <nav class="side-nav">
+      <button data-view="dashboard" class="active">📊 Dashboard</button>
+      <button data-view="responses">🗂️ Dữ liệu khảo sát</button>
+      <button data-view="content">📝 Nội dung trang</button>
+      <button data-view="export">⬇️ Xuất báo cáo</button>
+    </nav>
+    <div class="side-foot">
+      <div id="userEmail" style="margin-bottom:10px;color:#B9C7C0"></div>
+      <button class="btn btn-ghost btn-sm" id="logoutBtn" style="color:#fff;border-color:rgba(255,255,255,.3)">Đăng xuất</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <!-- DASHBOARD -->
+    <section class="view active" id="view-dashboard">
+      <div class="page-head">
+        <div><h1>Dashboard</h1><p style="color:var(--ink-2)">Tổng quan kết quả khảo sát theo khung ATiGB 5 chiều.</p></div>
+        <div class="toolbar" style="margin:0">
+          <select id="dashFilter"><option value="all">Tất cả trạng thái</option><option value="cleaned">Đã làm sạch</option><option value="raw">Dữ liệu thô</option></select>
+          <label style="display:flex;align-items:center;gap:6px;font-size:.85rem"><input type="checkbox" id="inclTest" checked style="width:auto"> Gồm dữ liệu mẫu</label>
+        </div>
+      </div>
+      <div class="kpi-grid" id="kpis"></div>
+      <div class="panel-grid">
+        <div class="panel"><h3>Radar ATiGB 5 chiều</h3><p class="ph-sub">So sánh Trước 2019 và Hiện nay</p><div id="chartRadar"></div></div>
+        <div class="panel"><h3>Điểm trung bình theo chiều</h3><p class="ph-sub">Trước vs Nay (thang 1–5)</p><div id="chartBar"></div></div>
+      </div>
+      <div class="panel"><h3>Đo lường tác động (IM) — chi tiết</h3><p class="ph-sub">Chú ý IM5 (CBAM 2026) — điểm thấp nhất khung</p><div id="chartLine"></div></div>
+      <div class="panel-grid">
+        <div class="panel"><h3>Cơ cấu đối tượng</h3><p class="ph-sub">Theo nhóm phản hồi</p><div id="chartDonut"></div></div>
+        <div class="panel"><h3>Bản đồ nhiệt điểm số (Hiện nay)</h3><p class="ph-sub">Theo chiều × nhóm đối tượng</p><div id="heatTable" style="overflow:auto"></div></div>
+      </div>
+    </section>
+
+    <!-- RESPONSES -->
+    <section class="view" id="view-responses">
+      <div class="page-head"><div><h1>Dữ liệu khảo sát</h1><p style="color:var(--ink-2)">Kiểm soát, làm sạch và chỉnh sửa phản hồi.</p></div></div>
+      <div class="toolbar">
+        <select id="fltType"><option value="">Mọi nhóm</option></select>
+        <select id="fltStatus"><option value="">Mọi trạng thái</option><option value="raw">Thô</option><option value="cleaned">Đã sạch</option><option value="flagged">Gắn cờ</option><option value="excluded">Loại trừ</option></select>
+        <select id="fltTest"><option value="">Tất cả</option><option value="false">Chỉ dữ liệu thật</option><option value="true">Chỉ dữ liệu mẫu</option></select>
+        <input type="text" id="fltSearch" placeholder="Tìm địa bàn / đơn vị...">
+        <span style="margin-left:auto;color:var(--muted);font-size:.85rem" id="rowCount"></span>
+      </div>
+      <div class="table-scroll">
+        <table id="respTable">
+          <thead><tr>
+            <th>Thời gian</th><th>Nhóm</th><th>Địa bàn</th><th>KN</th><th>Đã trả lời</th><th>ĐTB nay</th><th>Trạng thái</th><th></th>
+          </tr></thead>
+          <tbody id="respBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- CONTENT -->
+    <section class="view" id="view-content">
+      <div class="page-head"><div><h1>Nội dung trang</h1><p style="color:var(--ink-2)">Quản lý tin tức và bài báo hiển thị công khai.</p></div></div>
+      <div class="panel-grid">
+        <div class="panel">
+          <div style="display:flex;justify-content:space-between;align-items:center"><h3>Tin tức</h3><button class="btn btn-ghost btn-sm" id="addNews">+ Thêm</button></div>
+          <div id="newsAdmin" class="mt-2"></div>
+        </div>
+        <div class="panel">
+          <div style="display:flex;justify-content:space-between;align-items:center"><h3>Bài báo</h3><button class="btn btn-ghost btn-sm" id="addPub">+ Thêm</button></div>
+          <div id="pubAdmin" class="mt-2"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPORT -->
+    <section class="view" id="view-export">
+      <div class="page-head"><div><h1>Xuất báo cáo</h1><p style="color:var(--ink-2)">Tải dữ liệu và kết quả tổng hợp.</p></div></div>
+      <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr)">
+        <div class="panel"><div class="icon" style="width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:var(--gold-soft);font-size:1.4rem;margin-bottom:14px">📄</div><h3>Dữ liệu thô (CSV)</h3><p style="color:var(--ink-2);font-size:.9rem;margin:8px 0 16px">Toàn bộ phản hồi, mỗi câu hỏi 1 cột (A/B).</p><button class="btn btn-primary btn-sm" id="expCsv">Tải CSV</button></div>
+        <div class="panel"><div class="icon" style="width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:var(--gold-soft);font-size:1.4rem;margin-bottom:14px">🧾</div><h3>Dữ liệu JSON</h3><p style="color:var(--ink-2);font-size:.9rem;margin:8px 0 16px">Toàn bộ dữ liệu dạng JSON để phân tích SPSS/R.</p><button class="btn btn-primary btn-sm" id="expJson">Tải JSON</button></div>
+        <div class="panel"><div class="icon" style="width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:var(--gold-soft);font-size:1.4rem;margin-bottom:14px">📊</div><h3>Tổng hợp ĐTB (CSV)</h3><p style="color:var(--ink-2);font-size:.9rem;margin:8px 0 16px">Điểm trung bình từng câu × trước/nay × nhóm.</p><button class="btn btn-primary btn-sm" id="expSummary">Tải tổng hợp</button></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- MODAL -->
+<div class="modal-bg" id="modalBg"><div class="modal" id="modal"></div></div>
+
+<script src="config.js"></script>
+<script type="module" src="assets/admin.js"></script>
+</body>
+</html>
