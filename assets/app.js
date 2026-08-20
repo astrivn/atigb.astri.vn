@@ -244,7 +244,9 @@ async function submitSurvey() {
 }
 
 // ---------- RESULTS ----------
-function renderPubs(pubs) {
+function renderKpis() {
+  const el = $("#resultKpis");
+  if (!el) return;
   const R = ATIGB_RESULTS;
   const nowStr = R.overall.now.toFixed(2).replace(".", ",");
   const chgStr = "+" + R.overall.change_pct.toString().replace(".", ",") + "%";
@@ -254,10 +256,12 @@ function renderPubs(pubs) {
     ["Bài báo khoa học","7","2 đã viết · 5 kế hoạch"],
     ["Giải pháp đề xuất","11","tổng 225 tỷ đồng"],
   ];
-  $("#resultKpis").innerHTML = kpis.map(([t,n,s])=>`
+  el.innerHTML = kpis.map(([t,n,s])=>`
     <div class="card center"><div style="font-family:var(--serif);font-size:2.8rem;color:var(--forest);line-height:1">${n}</div>
     <div style="font-weight:600;margin:6px 0 2px">${t}</div><div style="color:var(--muted);font-size:.85rem">${s}</div></div>`).join("");
+}
 
+function renderPubs(pubs) {
   $("#pubList").innerHTML = pubs.map(p=>`
     <div class="pub-item">
       <div class="pub-code">${esc(p.code||'BB')}</div>
@@ -316,6 +320,6 @@ function renderEvents(events) {
 }
 
 // Biểu đồ kết quả dùng dữ liệu tĩnh -> render ngay, không phụ thuộc kết nối Supabase
-try { renderResultCharts(); } catch (e) { console.error("renderResultCharts", e); }
+try { renderKpis(); renderResultCharts(); } catch (e) { console.error("renderResults", e); }
 
 loadAll().catch(e => { console.error(e); toast("Không tải được dữ liệu. Kiểm tra kết nối.", true); });
