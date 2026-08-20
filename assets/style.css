@@ -255,3 +255,9 @@ textarea:focus,input:focus,select:focus{outline:none;border-color:var(--gold);bo
   border-radius:50%;animation:spin .7s linear infinite;display:inline-block}
 @keyframes spin{to{transform:rotate(360deg)}}
 .divider-leaf{text-align:center;color:var(--gold);font-size:1.4rem;margin:8px 0}
+
+/* Chú thích biểu đồ (radar / cột) */
+.chart-svg{display:block;max-width:100%;height:auto}
+.chart-legend{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;margin-top:12px;font-size:.9rem;color:var(--ink-2)}
+.chart-legend .lg{display:inline-flex;align-items:center;gap:7px}
+.chart-legend .lg i{width:14px;height:14px;border-radius:4px;display:inline-block;flex:none}
