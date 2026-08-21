@@ -261,3 +261,7 @@ textarea:focus,input:focus,select:focus{outline:none;border-color:var(--gold);bo
 .chart-legend{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;margin-top:12px;font-size:.9rem;color:var(--ink-2)}
 .chart-legend .lg{display:inline-flex;align-items:center;gap:7px}
 .chart-legend .lg i{width:14px;height:14px;border-radius:4px;display:inline-block;flex:none}
+
+/* Nhãn cảnh báo số liệu minh họa */
+.result-disclaimer{margin:8px auto 0;max-width:820px;text-align:center;font-size:.9rem;line-height:1.5;
+  color:#7A4B00;background:#FFF4DC;border:1px solid #F0C674;border-radius:10px;padding:12px 16px}

@@ -252,7 +252,7 @@ function renderKpis() {
   const chgStr = "+" + R.overall.change_pct.toString().replace(".", ",") + "%";
   const kpis = [
     ["ATiGB tổng", nowStr, "/5 · " + chgStr + " so với trước 2019"],
-    ["Chuyên gia khảo sát", String(R.n), "5 nhóm đối tượng"],
+    ["Mẫu minh họa", String(R.n), "5 nhóm đối tượng (mô phỏng)"],
     ["Bài báo khoa học","7","2 đã viết · 5 kế hoạch"],
     ["Giải pháp đề xuất","11","tổng 225 tỷ đồng"],
   ];
@@ -301,11 +301,18 @@ function renderResultCharts() {
       max: 5,
     });
   }
+  const grpStr = R.groups.map(g => `${g.name} ${g.n}`).join(" · ");
   const note = document.getElementById("resultNote");
   if (note) {
-    note.textContent = `Nguồn: khảo sát ATiGB n=${R.n} phản hồi (QLNN 75 · DN/HTX 37 · KHCN 25 · Nông dân 23 · Nhà KH 13), `
-      + `thang điểm 1–5, hai mốc Trước 2019 và Hiện nay. Trung bình chung: `
-      + `${R.overall.before.toFixed(2).replace(".", ",")} → ${R.overall.now.toFixed(2).replace(".", ",")}/5.`;
+    note.textContent = `Bộ dữ liệu minh họa (n=${R.n}: ${grpStr}), thang điểm 1–5, hai mốc Trước 2019 và Hiện nay. `
+      + `Trung bình chung: ${R.overall.before.toFixed(2).replace(".", ",")} → ${R.overall.now.toFixed(2).replace(".", ",")}/5.`;
+  }
+  const disc = document.getElementById("resultDisclaimer");
+  if (disc && R.illustrative) {
+    disc.style.display = "";
+    disc.textContent = "Lưu ý: Các số liệu và biểu đồ trong mục này là DỮ LIỆU MINH HỌA / MÔ PHỎNG (n="
+      + R.n + ") nhằm trình diễn khung đánh giá ATiGB — chưa phải kết quả khảo sát chính thức. "
+      + "Kết quả khảo sát thực tế sẽ được cập nhật khi hoàn tất thu thập dữ liệu.";
   }
 }
 
