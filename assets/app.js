@@ -1,4 +1,6 @@
 import { sb, toast, DIM_ORDER, fmtDate } from "./db.js";
+import { radar, groupedBar } from "./charts.js";
+import { ATIGB_RESULTS } from "./results-data.js";
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -242,17 +244,24 @@ async function submitSurvey() {
 }
 
 // ---------- RESULTS ----------
-function renderPubs(pubs) {
+function renderKpis() {
+  const el = $("#resultKpis");
+  if (!el) return;
+  const R = ATIGB_RESULTS;
+  const nowStr = R.overall.now.toFixed(2).replace(".", ",");
+  const chgStr = "+" + R.overall.change_pct.toString().replace(".", ",") + "%";
   const kpis = [
-    ["ATiGB tổng","3,41","/5 · +57% so với trước 2019"],
-    ["Chuyên gia khảo sát","174","tỷ lệ phản hồi 87%"],
+    ["ATiGB tổng", nowStr, "/5 · " + chgStr + " so với trước 2019"],
+    ["Mẫu minh họa", String(R.n), "5 nhóm đối tượng (mô phỏng)"],
     ["Bài báo khoa học","7","2 đã viết · 5 kế hoạch"],
     ["Giải pháp đề xuất","11","tổng 225 tỷ đồng"],
   ];
-  $("#resultKpis").innerHTML = kpis.map(([t,n,s])=>`
+  el.innerHTML = kpis.map(([t,n,s])=>`
     <div class="card center"><div style="font-family:var(--serif);font-size:2.8rem;color:var(--forest);line-height:1">${n}</div>
     <div style="font-weight:600;margin:6px 0 2px">${t}</div><div style="color:var(--muted);font-size:.85rem">${s}</div></div>`).join("");
+}
 
+function renderPubs(pubs) {
   $("#pubList").innerHTML = pubs.map(p=>`
     <div class="pub-item">
       <div class="pub-code">${esc(p.code||'BB')}</div>
@@ -267,6 +276,46 @@ function renderPubs(pubs) {
     </div>`).join("");
 }
 
+// Biểu đồ kết quả (dữ liệu tĩnh n=173, độc lập với Supabase)
+function renderResultCharts() {
+  const R = ATIGB_RESULTS;
+  const cBefore = "#E1A730", cNow = "#2E7D5B";
+  const elR = document.getElementById("chartRadar");
+  if (elR) {
+    radar(elR, {
+      labels: R.dims.map(d => d.code),
+      series: [
+        { name: "Trước 2019", color: cBefore, values: R.dims.map(d => d.before) },
+        { name: "Hiện nay",   color: cNow,    values: R.dims.map(d => d.now) },
+      ],
+    });
+  }
+  const elG = document.getElementById("chartGroups");
+  if (elG) {
+    groupedBar(elG, {
+      labels: R.groups.map(g => g.name),
+      series: [
+        { name: "Trước 2019", color: cBefore, values: R.groups.map(g => g.before) },
+        { name: "Hiện nay",   color: cNow,    values: R.groups.map(g => g.now) },
+      ],
+      max: 5,
+    });
+  }
+  const grpStr = R.groups.map(g => `${g.name} ${g.n}`).join(" · ");
+  const note = document.getElementById("resultNote");
+  if (note) {
+    note.textContent = `Bộ dữ liệu minh họa (n=${R.n}: ${grpStr}), thang điểm 1–5, hai mốc Trước 2019 và Hiện nay. `
+      + `Trung bình chung: ${R.overall.before.toFixed(2).replace(".", ",")} → ${R.overall.now.toFixed(2).replace(".", ",")}/5.`;
+  }
+  const disc = document.getElementById("resultDisclaimer");
+  if (disc && R.illustrative) {
+    disc.style.display = "";
+    disc.textContent = "Lưu ý: Các số liệu và biểu đồ trong mục này là DỮ LIỆU MINH HỌA / MÔ PHỎNG (n="
+      + R.n + ") nhằm trình diễn khung đánh giá ATiGB — chưa phải kết quả khảo sát chính thức. "
+      + "Kết quả khảo sát thực tế sẽ được cập nhật khi hoàn tất thu thập dữ liệu.";
+  }
+}
+
 function renderEvents(events) {
   const g = $("#eventGallery");
   if (!events.length) {
@@ -276,5 +325,8 @@ function renderEvents(events) {
   }
   g.innerHTML = events.map(e=>`<div class="ph">${e.image_url?`<img src="${esc(mediaUrl(e.image_url))}" style="width:100%;height:100%;object-fit:cover" alt="">`:'🖼️'}<span class="cap">${esc(e.title)}${e.event_date?' · '+fmtDate(e.event_date):''}</span></div>`).join("");
 }
+
+// Biểu đồ kết quả dùng dữ liệu tĩnh -> render ngay, không phụ thuộc kết nối Supabase
+try { renderKpis(); renderResultCharts(); } catch (e) { console.error("renderResults", e); }
 
 loadAll().catch(e => { console.error(e); toast("Không tải được dữ liệu. Kiểm tra kết nối.", true); });

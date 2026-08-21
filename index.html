@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=20260710c">
+<link rel="stylesheet" href="assets/style.css?v=20260820">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23137A3A'/><text x='50' y='68' font-size='58' text-anchor='middle' fill='%23A6E05A' font-family='Georgia'>A</text></svg>">
 </head>
 <body>
@@ -201,7 +201,16 @@
       <p class="section-sub">Hệ thống 7 bài báo khoa học trong quá trình thực hiện luận án và các kết quả nổi bật của khung ATiGB.</p>
     </div>
 
+    <p id="resultDisclaimer" class="result-disclaimer" style="display:none"></p>
+
     <div class="grid g-4 mt-3" id="resultKpis"></div>
+
+    <h3 style="font-size:1.6rem;margin:48px 0 20px">Đánh giá theo 5 chiều ATiGB — Trước 2019 &amp; Hiện nay</h3>
+    <div class="grid g-2" style="align-items:start;gap:24px">
+      <div class="card"><div id="chartRadar"></div></div>
+      <div class="card"><div id="chartGroups"></div></div>
+    </div>
+    <p class="section-sub" style="margin-top:14px;font-size:.85rem;color:var(--muted)" id="resultNote"></p>
 
     <h3 style="font-size:1.6rem;margin:48px 0 20px">Danh mục bài báo khoa học</h3>
     <div class="grid" style="gap:16px" id="pubList"></div>
@@ -243,7 +252,7 @@
   </div>
 </footer>
 
-<script src="config.js?v=20260710c"></script>
-<script type="module" src="assets/app.js?v=20260710c"></script>
+<script src="config.js?v=20260820"></script>
+<script type="module" src="assets/app.js?v=20260820"></script>
 </body>
 </html>
