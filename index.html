@@ -27,6 +27,7 @@
       <a href="#khung">Khung ATiGB</a>
       <a href="#khaosat">Khảo sát</a>
       <a href="#ketqua">Kết quả</a>
+      <a href="#kiemchung">Dữ liệu &amp; Kiểm chứng</a>
       <a href="admin.html" class="btn btn-ghost btn-sm">Quản trị</a>
     </div>
   </div>
@@ -208,6 +209,54 @@
 
     <h3 style="font-size:1.6rem;margin:48px 0 20px">Hình ảnh &amp; sự kiện</h3>
     <div class="gallery" id="eventGallery"></div>
+  </div>
+</section>
+
+<!-- DỮ LIỆU & KIỂM CHỨNG -->
+<section class="section" id="kiemchung">
+  <div class="container">
+    <div class="center">
+      <span class="eyebrow">Minh bạch &amp; Tái lập</span>
+      <h2 class="section-title">Dữ liệu &amp; Kiểm chứng</h2>
+      <p class="section-sub">Dữ liệu ẩn danh, mã phân tích và tài liệu nghiên cứu được công khai để đảm bảo tính tái lập và minh bạch khoa học.</p>
+    </div>
+
+    <div class="grid g-3 mt-3" style="gap:20px">
+      <div class="card" style="padding:28px">
+        <div class="icon">📊</div>
+        <h3 style="font-size:1.2rem">Dữ liệu khảo sát ẩn danh</h3>
+        <p style="color:var(--ink-2);font-size:.95rem">360 phiếu hợp lệ, 40 chỉ báo Likert 5 mức × 2 mốc thời gian (trước 2019, hiện nay), kèm thông tin nhóm chủ thể và địa bàn. Đã loại bỏ mọi thông tin định danh cá nhân.</p>
+        <a href="#" id="dlData" class="btn btn-primary btn-sm mt-2" download>Tải CSV →</a>
+      </div>
+      <div class="card" style="padding:28px">
+        <div class="icon">📖</div>
+        <h3 style="font-size:1.2rem">Codebook &amp; Bảng hỏi</h3>
+        <p style="color:var(--ink-2);font-size:.95rem">Mô tả 40 chỉ báo theo 5 cấu phần (C, I, O, OC, IM): mã biến, nội dung, thang đo, nguồn tham khảo. Bảng hỏi đầy đủ với câu hỏi đóng và mở.</p>
+        <a href="#" id="dlCodebook" class="btn btn-primary btn-sm mt-2" download>Tải PDF →</a>
+      </div>
+      <div class="card" style="padding:28px">
+        <div class="icon">⚙️</div>
+        <h3 style="font-size:1.2rem">Mã R &amp; Output PLS-SEM</h3>
+        <p style="color:var(--ink-2);font-size:.95rem">Script R (cSEM) tái lập toàn bộ phân tích: mô hình đo lường, mô hình cấu trúc, IPMA, MICOM, PLS-MGA, PLSpredict, điểm trưởng thành M.</p>
+        <a href="#" id="dlCode" class="btn btn-primary btn-sm mt-2" download>Tải R + Output →</a>
+      </div>
+    </div>
+
+    <div class="card mt-3" style="padding:28px;background:var(--cream-2)">
+      <h3 style="font-size:1.15rem;margin-bottom:12px">Thông tin thu thập dữ liệu</h3>
+      <div class="grid g-2" style="gap:16px">
+        <div>
+          <p style="color:var(--ink-2);font-size:.95rem"><b>Thời gian:</b> Tháng 6 – tháng 8 năm 2024</p>
+          <p style="color:var(--ink-2);font-size:.95rem"><b>Địa bàn:</b> 9 huyện/TP của tỉnh Sơn La</p>
+          <p style="color:var(--ink-2);font-size:.95rem"><b>Cỡ mẫu:</b> 360 phiếu hợp lệ (phát 420, thu 385, hợp lệ 93,5%)</p>
+        </div>
+        <div>
+          <p style="color:var(--ink-2);font-size:.95rem"><b>Phương pháp:</b> Phân tầng + hạn ngạch theo nhóm chủ thể</p>
+          <p style="color:var(--ink-2);font-size:.95rem"><b>Nhóm chủ thể:</b> QLNN 33,3% · DN/HTX 22,2% · Nông hộ 18,1% · KH&CN 15,3% · Chuyên gia 11,1%</p>
+          <p style="color:var(--ink-2);font-size:.95rem"><b>Công cụ:</b> Bảng hỏi cấu trúc, thang Likert 5 mức</p>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 

@@ -244,8 +244,8 @@ async function submitSurvey() {
 // ---------- RESULTS ----------
 function renderPubs(pubs) {
   const kpis = [
-    ["ATiGB tổng","3,41","/5 · +57% so với trước 2019"],
-    ["Chuyên gia khảo sát","174","tỷ lệ phản hồi 87%"],
+    ["ATiGB tổng","3,34","/5 · Mức 3 — Tích hợp · +50% so với trước 2019"],
+    ["Phiếu khảo sát","360","phát 420 · thu 385 · hợp lệ 93,5%"],
     ["Bài báo khoa học","7","2 đã viết · 5 kế hoạch"],
     ["Giải pháp đề xuất","11","tổng 225 tỷ đồng"],
   ];
