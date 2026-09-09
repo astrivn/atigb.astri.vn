@@ -1,0 +1,182 @@
+/* ============================================================
+   ATiGB v2.0 — Additional styles (loaded after style.css)
+   ============================================================ */
+
+/* Offline indicator bar */
+.offline-bar {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  background: var(--terra, #C77A34);
+  color: #fff;
+  text-align: center;
+  padding: 8px 16px;
+  font-size: .85rem;
+  font-weight: 500;
+}
+
+body.is-offline .nav { opacity: .7; }
+
+/* New badge for v2.0 dimensions */
+.badge-new {
+  display: inline-block;
+  background: var(--blue, #0279EE);
+  color: #fff;
+  font-size: .65rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin-left: 8px;
+  vertical-align: middle;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+
+/* Adaptive question blocks */
+.adaptive-block {
+  border-left: 3px solid var(--blue, #0279EE);
+  padding-left: 16px;
+  margin: 16px 0;
+}
+
+.adaptive-q {
+  background: rgba(2, 121, 238, 0.03);
+  border-radius: 8px;
+  padding: 12px;
+  margin: 8px -12px;
+}
+
+/* Auto-save indicator */
+#autoSaveIndicator {
+  transition: opacity .3s;
+}
+
+/* Dashboard filter bar */
+.dash-filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.dash-filter-row label {
+  font-size: .8rem;
+  color: var(--ink-2);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.dash-filter-row select {
+  padding: 8px 12px;
+  border: 1px solid var(--border, #E1EAD8);
+  border-radius: 8px;
+  font-size: .9rem;
+  background: #fff;
+  min-width: 140px;
+}
+
+.dash-filter-row .btn {
+  margin-top: 2px;
+}
+
+/* Indicator rows (low/high) */
+.ind-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border, #E1EAD8);
+}
+
+.ind-row:last-child { border-bottom: none; }
+
+.ind-code {
+  font-weight: 700;
+  color: var(--forest, #137A3A);
+  font-size: .9rem;
+  min-width: 50px;
+}
+
+.ind-bar {
+  flex: 1;
+  height: 8px;
+  background: var(--cream-2, #F0EDE5);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.ind-bar span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--terra, #C77A34), var(--forest, #137A3A));
+  border-radius: 4px;
+  transition: width .5s ease;
+}
+
+.ind-val {
+  font-weight: 700;
+  font-size: .9rem;
+  min-width: 50px;
+  text-align: right;
+}
+
+/* Heat table improvements */
+table.heat {
+  border-collapse: separate;
+  border-spacing: 4px;
+}
+
+table.heat td, table.heat th {
+  border-radius: 6px;
+}
+
+/* PWA install prompt */
+.pwa-install-prompt {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--forest, #137A3A);
+  color: #fff;
+  padding: 14px 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,.15);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  z-index: 1000;
+  font-size: .9rem;
+  max-width: 90vw;
+}
+
+.pwa-install-prompt button {
+  background: var(--lime-bright, #E9ED4C);
+  color: var(--forest, #137A3A);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.pwa-install-prompt .dismiss {
+  background: transparent;
+  color: #fff;
+  font-size: 1.2rem;
+  padding: 4px 8px;
+}
+
+/* Responsive adjustments for v2.0 */
+@media (max-width: 768px) {
+  .dash-filter-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .dash-filter-row select {
+    min-width: 100%;
+  }
+  .hero-badges {
+    flex-wrap: wrap;
+  }
+}

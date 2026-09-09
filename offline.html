@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ATiGB — Ngoại tuyến</title>
+<link rel="stylesheet" href="/assets/style.css?v=20260909">
+<style>
+  .offline-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;text-align:center;padding:40px 20px}
+  .offline-icon{font-size:4rem;margin-bottom:20px}
+  .offline-title{font-family:var(--serif);font-size:2.2rem;color:var(--forest);margin-bottom:12px}
+  .offline-msg{color:var(--ink-2);max-width:480px;line-height:1.6;margin-bottom:24px}
+  .offline-status{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;background:var(--cream-2);border-radius:20px;font-size:.9rem;color:var(--ink-2);margin-bottom:24px}
+  .offline-dot{width:10px;height:10px;border-radius:50%;background:var(--danger);animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+  .offline-actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+</style>
+</head>
+<body>
+<div class="offline-wrap">
+  <div class="offline-icon">📡</div>
+  <h1 class="offline-title">Bạn đang ngoại tuyến</h1>
+  <p class="offline-msg">
+    Kết nối internet hiện không khả dụng. Bạn vẫn có thể điền khảo sát —
+    dữ liệu sẽ được lưu tạm và tự động đồng bộ khi có mạng trở lại.
+  </p>
+  <div class="offline-status">
+    <span class="offline-dot"></span>
+    Đang chờ kết nối...
+  </div>
+  <div class="offline-actions">
+    <a href="/#khaosat" class="btn btn-primary">Tiếp tục khảo sát →</a>
+    <button class="btn btn-ghost" onclick="location.reload()">Thử lại kết nối</button>
+  </div>
+</div>
+<script>
+  // Auto-reload when back online
+  window.addEventListener('online', () => location.reload());
+</script>
+</body>
+</html>
