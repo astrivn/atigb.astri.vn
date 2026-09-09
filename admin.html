@@ -3,11 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Quản trị · Khảo sát ATiGB Sơn La</title>
+<title>Quản trị · Khảo sát ATiGB Sơn La v2.0</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=20260710c">
+<link rel="stylesheet" href="assets/style.css?v=20260909">
+<link rel="stylesheet" href="assets/v2.css?v=20260909">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23137A3A'/><text x='50' y='68' font-size='58' text-anchor='middle' fill='%23A6E05A' font-family='Georgia'>A</text></svg>">
 <style>
   body{background:var(--cream-2)}
@@ -23,11 +24,12 @@
   .sidebar{background:var(--forest);color:#D9E4DE;padding:26px 18px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column}
   .sidebar .brand{color:#fff;margin-bottom:32px}
   .sidebar .brand .mark{background:rgba(255,255,255,.1)}
-  .side-nav{display:flex;flex-direction:column;gap:4px;flex:1}
+  .side-nav{display:flex;flex-direction:column;gap:4px;flex:1;overflow-y:auto}
   .side-nav button{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;border:none;
     background:transparent;color:#B9C7C0;font-family:var(--sans);font-size:.94rem;font-weight:500;cursor:pointer;text-align:left;transition:.2s;width:100%}
   .side-nav button:hover{background:rgba(255,255,255,.07);color:#fff}
   .side-nav button.active{background:var(--gold);color:var(--forest);font-weight:700}
+  .side-nav .nav-section{font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:#6B8278;padding:14px 14px 6px;font-weight:700}
   .side-foot{border-top:1px solid rgba(255,255,255,.12);padding-top:16px;font-size:.82rem;color:#8FA39A}
   .main{padding:32px 36px;overflow-x:hidden}
   .page-head{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px;margin-bottom:28px}
@@ -76,7 +78,7 @@
   <div class="login-card">
     <div class="mark">A</div>
     <h2 style="text-align:center;font-size:1.7rem">Trang quản trị</h2>
-    <p style="text-align:center;color:var(--ink-2);margin-bottom:24px;font-size:.92rem">Khảo sát ATiGB · Sơn La</p>
+    <p style="text-align:center;color:var(--ink-2);margin-bottom:24px;font-size:.92rem">Khảo sát ATiGB v2.0 · Sơn La</p>
     <form id="loginForm">
       <div class="field"><label>Email</label><input type="email" id="email" required autocomplete="username" placeholder="admin@atigb-sonla.vn"></div>
       <div class="field"><label>Mật khẩu</label><input type="password" id="password" required autocomplete="current-password" placeholder="••••••••"></div>
@@ -90,10 +92,16 @@
 <!-- ADMIN -->
 <div class="admin-shell hidden" id="adminView">
   <aside class="sidebar">
-    <div class="brand"><span class="mark">A</span><span>ATiGB Admin</span></div>
+    <div class="brand"><span class="mark">A</span><span>ATiGB Admin v2</span></div>
     <nav class="side-nav">
+      <div class="nav-section">Phân tích</div>
       <button data-view="dashboard" class="active">📊 Dashboard</button>
+      <button data-view="quality">🔍 Chất lượng dữ liệu</button>
+      <button data-view="rounds">🔄 So sánh đa đợt</button>
+      <div class="nav-section">Dữ liệu</div>
       <button data-view="responses">🗂️ Dữ liệu khảo sát</button>
+      <button data-view="enumerators">👥 Điều tra viên</button>
+      <div class="nav-section">Nội dung</div>
       <button data-view="content">📝 Nội dung trang</button>
       <button data-view="export">⬇️ Xuất báo cáo</button>
     </nav>
@@ -107,7 +115,7 @@
     <!-- DASHBOARD -->
     <section class="view active" id="view-dashboard">
       <div class="page-head">
-        <div><h1>Dashboard</h1><p style="color:var(--ink-2)">Tổng quan kết quả khảo sát theo khung ATiGB 5 chiều.</p></div>
+        <div><h1>Dashboard</h1><p style="color:var(--ink-2)">Tổng quan kết quả khảo sát theo khung ATiGB (tự phát hiện v1.0/v2.0).</p></div>
         <div class="toolbar" style="margin:0">
           <select id="dashFilter"><option value="all">Tất cả trạng thái</option><option value="cleaned">Đã làm sạch</option><option value="raw">Dữ liệu thô</option></select>
           <label style="display:flex;align-items:center;gap:6px;font-size:.85rem"><input type="checkbox" id="inclTest" checked style="width:auto"> Gồm dữ liệu mẫu</label>
@@ -115,7 +123,7 @@
       </div>
       <div class="kpi-grid" id="kpis"></div>
       <div class="panel-grid">
-        <div class="panel"><h3>Radar ATiGB 5 chiều</h3><p class="ph-sub">So sánh Trước 2019 và Hiện nay</p><div id="chartRadar"></div></div>
+        <div class="panel"><h3>Radar ATiGB</h3><p class="ph-sub">So sánh Trước 2019 và Hiện nay</p><div id="chartRadar"></div></div>
         <div class="panel"><h3>Điểm trung bình theo chiều</h3><p class="ph-sub">Trước vs Nay (thang 1–5)</p><div id="chartBar"></div></div>
       </div>
       <div class="panel"><h3>Đo lường tác động (IM) — chi tiết</h3><p class="ph-sub">Chú ý IM5 (CBAM 2026) — điểm thấp nhất khung</p><div id="chartLine"></div></div>
@@ -125,6 +133,22 @@
       </div>
     </section>
 
+    <!-- DATA QUALITY -->
+    <section class="view" id="view-quality">
+      <div class="page-head">
+        <div><h1>Chất lượng dữ liệu</h1><p style="color:var(--ink-2)">Kiểm tra hoàn thành, straight-lining, extreme responding và điểm chất lượng từng phiếu.</p></div>
+      </div>
+      <div id="qualityRoot"></div>
+    </section>
+
+    <!-- MULTI-ROUND COMPARISON -->
+    <section class="view" id="view-rounds">
+      <div class="page-head">
+        <div><h1>So sánh đa đợt</h1><p style="color:var(--ink-2)">So sánh kết quả giữa đợt 1 (v1.0, 5 chiều) và đợt 2 (v2.0, 7 chiều).</p></div>
+      </div>
+      <div id="roundsRoot"></div>
+    </section>
+
     <!-- RESPONSES -->
     <section class="view" id="view-responses">
       <div class="page-head"><div><h1>Dữ liệu khảo sát</h1><p style="color:var(--ink-2)">Kiểm soát, làm sạch và chỉnh sửa phản hồi.</p></div></div>
@@ -132,15 +156,32 @@
         <select id="fltType"><option value="">Mọi nhóm</option></select>
         <select id="fltStatus"><option value="">Mọi trạng thái</option><option value="raw">Thô</option><option value="cleaned">Đã sạch</option><option value="flagged">Gắn cờ</option><option value="excluded">Loại trừ</option></select>
         <select id="fltTest"><option value="">Tất cả</option><option value="false">Chỉ dữ liệu thật</option><option value="true">Chỉ dữ liệu mẫu</option></select>
+        <select id="fltRound"><option value="">Mọi đợt</option><option value="1">Đợt 1 (v1.0)</option><option value="2">Đợt 2 (v2.0)</option></select>
         <input type="text" id="fltSearch" placeholder="Tìm địa bàn / đơn vị...">
         <span style="margin-left:auto;color:var(--muted);font-size:.85rem" id="rowCount"></span>
       </div>
       <div class="table-scroll">
         <table id="respTable">
           <thead><tr>
-            <th>Thời gian</th><th>Nhóm</th><th>Địa bàn</th><th>KN</th><th>Đã trả lời</th><th>ĐTB nay</th><th>Trạng thái</th><th></th>
+            <th>Thời gian</th><th>Nhóm</th><th>Địa bàn</th><th>Đã trả lời</th><th>ĐTB nay</th><th>Trạng thái</th><th>Đợt</th><th>ĐTV</th><th></th>
           </tr></thead>
           <tbody id="respBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ENUMERATORS -->
+    <section class="view" id="view-enumerators">
+      <div class="page-head">
+        <div><h1>Điều tra viên</h1><p style="color:var(--ink-2)">Quản lý đội ngũ điều tra viên và theo dõi chất lượng thu thập.</p></div>
+        <button class="btn btn-primary btn-sm" id="addEnum">+ Thêm điều tra viên</button>
+      </div>
+      <div class="table-scroll">
+        <table>
+          <thead><tr>
+            <th>Họ tên</th><th>Điện thoại</th><th>Địa bàn</th><th>Số phiếu</th><th>Gắn cờ</th><th>Tỷ lệ sạch</th><th>Trạng thái</th><th></th>
+          </tr></thead>
+          <tbody id="enumBody"></tbody>
         </table>
       </div>
     </section>
@@ -169,9 +210,9 @@
 
     <!-- EXPORT -->
     <section class="view" id="view-export">
-      <div class="page-head"><div><h1>Xuất báo cáo</h1><p style="color:var(--ink-2)">Tải dữ liệu và kết quả tổng hợp.</p></div></div>
+      <div class="page-head"><div><h1>Xuất báo cáo</h1><p style="color:var(--ink-2)">Tải dữ liệu và kết quả tổng hợp (bao gồm trường v2.0).</p></div></div>
       <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr)">
-        <div class="panel"><div class="icon" style="width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:var(--gold-soft);font-size:1.4rem;margin-bottom:14px">📄</div><h3>Dữ liệu thô (CSV)</h3><p style="color:var(--ink-2);font-size:.9rem;margin:8px 0 16px">Toàn bộ phản hồi, mỗi câu hỏi 1 cột (A/B).</p><button class="btn btn-primary btn-sm" id="expCsv">Tải CSV</button></div>
+        <div class="panel"><div class="icon" style="width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:var(--gold-soft);font-size:1.4rem;margin-bottom:14px">📄</div><h3>Dữ liệu thô (CSV)</h3><p style="color:var(--ink-2);font-size:.9rem;margin:8px 0 16px">Toàn bộ phản hồi, mỗi câu hỏi 1 cột (A/B) + trường v2.0.</p><button class="btn btn-primary btn-sm" id="expCsv">Tải CSV</button></div>
         <div class="panel"><div class="icon" style="width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:var(--gold-soft);font-size:1.4rem;margin-bottom:14px">🧾</div><h3>Dữ liệu JSON</h3><p style="color:var(--ink-2);font-size:.9rem;margin:8px 0 16px">Toàn bộ dữ liệu dạng JSON để phân tích SPSS/R.</p><button class="btn btn-primary btn-sm" id="expJson">Tải JSON</button></div>
         <div class="panel"><div class="icon" style="width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:var(--gold-soft);font-size:1.4rem;margin-bottom:14px">📊</div><h3>Tổng hợp ĐTB (CSV)</h3><p style="color:var(--ink-2);font-size:.9rem;margin:8px 0 16px">Điểm trung bình từng câu × trước/nay × nhóm.</p><button class="btn btn-primary btn-sm" id="expSummary">Tải tổng hợp</button></div>
       </div>
@@ -182,7 +223,7 @@
 <!-- MODAL -->
 <div class="modal-bg" id="modalBg"><div class="modal" id="modal"></div></div>
 
-<script src="config.js?v=20260710c"></script>
-<script type="module" src="assets/admin.js?v=20260710c"></script>
+<script src="config.js?v=20260909"></script>
+<script type="module" src="assets/admin.js?v=20260909"></script>
 </body>
 </html>
